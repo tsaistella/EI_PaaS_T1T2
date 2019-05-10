@@ -1,8 +1,8 @@
 ---
 applications:
-- name: python-app
+- name: BRS-ib-subscriber
   memory: 128M
-  no-route: true
+  no-route: false
   health-check-type: process
   buildpacks:
     - https://github.com/cloudfoundry/python-buildpack.git
@@ -12,5 +12,5 @@ applications:
     RABBITMQ_HOST: 
     RABBITMQ_PORT: 
     RABBITMQ_VHOST: 
-    TOKEN: 
-    PORTAL_URL: 
+    RABBITMQ_BPMEXCHANGE: 
+    RABBITMQ_QUEUENAME: 

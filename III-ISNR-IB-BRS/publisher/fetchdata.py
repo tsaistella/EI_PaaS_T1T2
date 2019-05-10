@@ -2,6 +2,7 @@ import time, os, json, sys
 from QueueManager import QueueManager, QueueManagerUri
 import pymqi 
 
+
 #stella from WebRequestManager import WebRequestManager as webmgr
 
 from init import init_queue
@@ -79,40 +80,47 @@ def fetchdata():
     #qmgr = pymqi.connect(queue_manager, channel, conn_info)
     #Connecting in client mode with username/password credentials
 
+
     keep_connect = True
     while keep_connect:
-        try:           
-            qmgr = pymqi.connect(queue_manager, channel, conn_info, user, password)
+        try:               
+            qmgr = pymqi.connect(queue_manager, channel, conn_info, user, password)            
             keep_connect = False
-        except  Exception as pymqierror :
+        except  Exception as pymqierror :               
             print(str(pymqierror))            
+        time.sleep(10)
+        
+        #Connecting in client mode
+        ibmqueue = pymqi.Queue(qmgr, queue_name)
+                
+            #How to put the message on a queue
+        # try:
+        #     message = 'Hello from Python!'
+        #     ibmqueue.put(message)
+        # except Exception as identifier:
+        #     print(str(identifier))
+
+        keep_running = True
+        count = 0
+        while keep_running:
+            try:
+                #How to get the message off a queue
+                msg_body = ibmqueue.get().decode('utf-16')
+                # routing_key = '{}_rk'.format(api['name'].lower())    
+                #         
+                qm.publish(exchange, routing_key, msg_body)            
+                printmsg = msg_body
+            except  Exception as pymqierror :                        
+                printmsg = str(pymqierror)
+                if count > 10 :
+                    keep_running = False            
+                    keep_connect = True
+                count = count + 1
+            print(printmsg)          
             time.sleep(10)
 
 
-    #Connecting in client mode
-    ibmqueue = pymqi.Queue(qmgr, queue_name)
-            
-        #How to put the message on a queue
-    # try:
-    #     message = 'Hello from Python!'
-    #     ibmqueue.put(message)
-    # except Exception as identifier:
-    #     print(str(identifier))
-
-    keep_running = True
-    while keep_running:
-        try:
-            #How to get the message off a queue
-            msg_body = ibmqueue.get().decode('utf-16')
-            print(msg_body)            
-            # routing_key = '{}_rk'.format(api['name'].lower())   
-            qm.publish(exchange, routing_key, msg_body)
-        except  Exception as pymqierror :
-            print(str(pymqierror))
-        time.sleep(10)
-
     ibmqueue.close()
-
     qmgr.disconnect()
 
 if __name__ == "__main__":
