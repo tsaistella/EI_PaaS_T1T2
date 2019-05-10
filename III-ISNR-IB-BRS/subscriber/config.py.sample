@@ -1,0 +1,11 @@
+PORTAL_URL = os.getenv('PORTAL_URL')
+
+xmldata = [
+    {
+        'name': '<api_name>',
+        'root': '<sample_root>',
+        'children': ['<sample_node>'],
+        'url': '<portal_api_url>'
+    },
+
+]

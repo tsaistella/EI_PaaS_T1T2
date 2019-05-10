@@ -1,0 +1,8 @@
+set RABBITMQ_USER=guest
+set RABBITMQ_PASSWORD=guest
+set RABBITMQ_HOST=127.0.0.1
+set RABBITMQ_PORT=5672
+set RABBITMQ_VHOST=/
+set TOKEN=0c66fc6d03ee8d4ea9e6cd0951f7c70538c8366a
+set PORTAL_URL=http://localhost:8000
+python storedata.py
