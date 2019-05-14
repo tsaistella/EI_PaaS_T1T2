@@ -1,8 +1,8 @@
 ---
 applications:
-- name: BRS-ib-subscriber
+- name: BRS-ib-Subscriber
   memory: 128M
-  no-route: false
+  no-route: true
   health-check-type: process
   buildpacks:
     - https://github.com/cloudfoundry/python-buildpack.git

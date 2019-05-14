@@ -5,4 +5,4 @@ export RABBITMQ_PORT="5671"
 export RABBITMQ_VHOST="isnr"
 export RABBITMQ_BPMEXCHANGE="bpm"
 export RABBITMQ_QUEUENAME="bpm"
-python3 storedata.py
+python storedata.py
