@@ -7,10 +7,10 @@ applications:
   buildpacks:
     - https://github.com/cloudfoundry/python-buildpack.git
   env:
-    RABBITMQ_USER: 
-    RABBITMQ_PASSWORD: 
-    RABBITMQ_HOST: 
-    RABBITMQ_PORT: 
-    RABBITMQ_VHOST: 
-    RABBITMQ_BPMEXCHANGE: 
-    RABBITMQ_QUEUENAME: 
+    RABBITMQ_USER: isnr
+    RABBITMQ_PASSWORD: isnr2019
+    RABBITMQ_HOST: 172.20.0.220
+    RABBITMQ_PORT: 5671
+    RABBITMQ_VHOST: isnr
+    RABBITMQ_BPMEXCHANGE: bpm
+    RABBITMQ_QUEUENAME: bpm
