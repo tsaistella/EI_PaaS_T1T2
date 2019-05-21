@@ -2,14 +2,25 @@
 applications:
 - name: BRS-ib-publisher
   memory: 128M
-  no-route: false
+  no-route: true
   health-check-type: process
   buildpacks:
     - https://github.com/cloudfoundry/python-buildpack.git
   env:
-    RABBITMQ_USER: 
-    RABBITMQ_PASSWORD: 
-    RABBITMQ_HOST: 
-    RABBITMQ_PORT: 
-    RABBITMQ_VHOST: 
-    RABBITMQ_EXCHANGE: 
+    RABBITMQ_USER: isnr
+    RABBITMQ_PASSWORD: isnr2019
+    RABBITMQ_HOST: 172.20.0.220
+    RABBITMQ_PORT: 5671
+    RABBITMQ_VHOST: isnr
+    RABBITMQ_BPMEXCHANGE: bpm
+    RABBITMQ_QUEUENAME: bpm
+    LD_LIBRARY_PATH: /opt/mqm/lib64/
+    IBMQUEUE_MANAGER: TIABPM
+    IBMCHANNEL: TAISNR.SVRCONN
+    IBMHOST: 10.2.67.76
+    IBMPORT: 1414
+    IBMQUEUE_NAME: TAISNR.LOCAL.QUEUE
+    IBMUSER: TAISNRBPM
+    IBMPASSWORD: Taisnr123456!
+    IBMROUTING_KEY: bpm_rk
+    

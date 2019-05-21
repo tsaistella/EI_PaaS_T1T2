@@ -1,5 +1,4 @@
 from QueueManager import QueueManagerUri
-from config import FOS_API
 
 def init_queue(qm, exchange):
     for api in FOS_API:
