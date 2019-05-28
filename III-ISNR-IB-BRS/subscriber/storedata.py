@@ -14,14 +14,13 @@ host = os.getenv('RABBITMQ_HOST')
 port = os.getenv('RABBITMQ_PORT')
 vhost = os.getenv('RABBITMQ_VHOST')
 queue_name = os.getenv('RABBITMQ_QUEUENAME')
+url = os.getenv('PORTAL_URL')
+token = os.getenv('PORTAL_TOKEN')
 
 def parse_store( body):
-    #print(body)
-	#txt = "BPM\r\n.V/1LTPE\r\n.J/R///18APR/002903L/TIAT2/\r\n.F/BR0026/17APR/SEA/Y\r\n.B/UNS/0695463055001\r\n.I/BR0266/17APR/PNH/Y\r\n.S/Y/70D/C/080/080//Y/A\r\n.W/K/1/17\r\n.P/ROS/SARAMONICH\r\nENDBPM"
     json_str = IataParsing.IATABPM(body)    
     print ("JSON：", json_str)
-    url = ""
-    #webmgr.post_json(url, json_str, True, False, None)
+    webmgr.post_json(url, json_str, token=token)
     
 
 def dataParsing():  

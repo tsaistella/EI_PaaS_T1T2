@@ -168,12 +168,13 @@ class IATAParsing(object):
         if 'fOutboundFlightAirportCode' in BpmJson:  
             BagPrimarykey = BagPrimarykey + BpmJson['fOutboundFlightAirportCode']
 
-        BpmJson.update( {"BagPrimarykey":BagPrimarykey} )
+        BpmJson.update( {"PK":BagPrimarykey} )
 
         #print(type(person)) #<class 'dict'>
         #print(BpmJson['vVerNumBagSourceAirportCode']) #25
         
-        json_str = json.dumps(BpmJson)
-        return json_str
+        # json_str = json.dumps(BpmJson)
+        # return json_str
+        return BpmJson
 
 
