@@ -18,7 +18,8 @@ def fetchdata():
     host = os.getenv('RABBITMQ_HOST')
     port = os.getenv('RABBITMQ_PORT')
     vhost = os.getenv('RABBITMQ_VHOST')
-    exchange = os.getenv('RABBITMQ_BPMEXCHANGE')    
+    exchange = os.getenv('RABBITMQ_BPMEXCHANGE')   
+    routing_key = os.getenv('RABBITMQ_ROUTING_KEY') 
     #user = "isnr"
     #password = "isnr2019"
     #host = "172.20.0.220"
@@ -59,7 +60,6 @@ def fetchdata():
     queue_name = os.getenv("IBMQUEUE_NAME")
     user = os.getenv('IBMUSER')
     password = os.getenv('IBMPASSWORD')
-    routing_key = os.getenv('IBMROUTING_KEY')
     #queue_manager = "TIABPM"
     #channel = "TAISNR.SVRCONN"
     #host = "10.2.67.76"
