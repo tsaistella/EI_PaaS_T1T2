@@ -1,3 +1,0 @@
-# Run every 2 seconds
-
-*/2 * * * * * * python fetchdata.py

@@ -14,6 +14,7 @@ applications:
     RABBITMQ_VHOST: isnr
     RABBITMQ_BPMEXCHANGE: bpm
     RABBITMQ_QUEUENAME: bpm
+    RABBITMQ_ROUTING_KEY: bpm_rk
     LD_LIBRARY_PATH: /opt/mqm/lib64/
     IBMQUEUE_MANAGER: TIABPM
     IBMCHANNEL: TAISNR.SVRCONN
@@ -22,5 +23,6 @@ applications:
     IBMQUEUE_NAME: TAISNR.LOCAL.QUEUE
     IBMUSER: TAISNRBPM
     IBMPASSWORD: Taisnr123456!
-    IBMROUTING_KEY: bpm_rk
-    
+    DebugLog: Open
+    FailToSleepSec: 20
+    DisconnectSec: 600

@@ -5,6 +5,7 @@ set RABBITMQ_PORT=5671
 set RABBITMQ_VHOST=isnr
 set RABBITMQ_BPMEXCHANGE=bpm
 set RABBITMQ_QUEUENAME=bpm
+set RABBITMQ_ROUTING_KEY=bpm_rk
 set LD_LIBRARY_PATH=/opt/mqm/lib64/
 set IBMQUEUE_MANAGER=TIABPM
 set IBMCHANNEL=TAISNR.SVRCONN
@@ -13,5 +14,7 @@ set IBMPORT=1414
 set IBMQUEUE_NAME=TAISNR.LOCAL.QUEUE
 set IBMUSER=TAISNRBPM
 set IBMPASSWORD=Taisnr123456!
-set IBMROUTING_KEY=bpm_rk
-python3 fetchdata.py
+set DebugLog=Open
+set FailToSleepSec=20
+set DisconnectSec=600
+python code\fetchdata.py
