@@ -8,4 +8,4 @@ set RABBITMQ_QUEUENAME=bpm
 set RABBITMQ_ROUTING_KEY=bpm_rk
 set PORTAL_URL=http://172.20.0.228:5555/baggages/api/v1/bpm/
 set PORTAL_TOKEN=3e74e351fb4096af14c9e318af2f5bffed6fba2c
-python ./code/storedata.py
+python code\storedata.py

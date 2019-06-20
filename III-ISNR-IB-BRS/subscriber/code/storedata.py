@@ -17,10 +17,23 @@ queue_name = os.getenv('RABBITMQ_QUEUENAME')
 url = os.getenv('PORTAL_URL')
 token = os.getenv('PORTAL_TOKEN')
 
+
+
 def parse_store( body):
     json_str = IataParsing.IATABPM(body)    
-    print ("JSON：", json_str)
-    webmgr.post_json(url, json_str, token=token)
+    #print ("JSON：", json_str)
+    webmgr_connect = True   
+    count = 1
+    while webmgr_connect:
+        try:        
+            webmgr.post_json(url, json_str, token=token)
+            webmgr_connect = False 
+        except Exception as patherror :
+            print(str(patherror))     
+            if count > 9 :
+                print ("JSON：", json_str)
+                webmgr_connect = False  
+            count = count + 1  
     
 
 def dataParsing():  
@@ -38,9 +51,10 @@ def dataParsing():
     
     def callback(ch, method, properties, body):
         parse_store(body)
-    channel.basic_consume(queue_name, callback ,auto_ack=True)
-    print(' [*] Waiting for messages.')
+        
     try:
+        channel.basic_consume(queue_name, callback ,auto_ack=True)
+        print(' [*] Waiting for messages.')
         channel.start_consuming()
     except pika.exceptions.ChannelClosedByBroker as e:
         sys.exit('Error: cannot connect to RqbbitMQ!')

@@ -15,5 +15,5 @@ applications:
     RABBITMQ_BPMEXCHANGE: bpm
     RABBITMQ_QUEUENAME: bpm
     RABBITMQ_ROUTING_KEY: bpm_rk
-    PORTAL_URL: http://127.0.0.1:8000/baggages/api/v1/bpm/
+    PORTAL_URL: http://172.20.0.228:5555/baggages/api/v1/bpm/
     PORTAL_TOKEN: 3e74e351fb4096af14c9e318af2f5bffed6fba2c
