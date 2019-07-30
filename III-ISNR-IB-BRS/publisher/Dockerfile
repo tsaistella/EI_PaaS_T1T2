@@ -39,6 +39,8 @@ ENV IBMPASSWORD=Taisnr123456!
 ENV DebugLog=Open
 ENV FailToSleepSec=20
 ENV DisconnectSec=600
+ENV PORTALLOG_URL=http://172.20.0.228:5555/common/api/v1/apilog/
+ENV PORTAL_TOKEN=0d7bb5e553351702b633ccfe46c93fa007f6e4f1
 
 WORKDIR /app  
 ADD . /app  

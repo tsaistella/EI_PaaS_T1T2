@@ -248,7 +248,7 @@ BRS-ib-publisher
 
 |
 
-    \ **2019/06/03**\: 調整當異常發現10次後，等待10~20分才重建連線。避免造成IBMMQ Server 資訊佔用，後緒再觀察華航的連線狀況。
+    \ **2019/06/03**\: 調整當異常發現10次後，等待10~20分才重建連線。避免造成IBMMQ Server 資訊佔用，後續再觀察華航的連線狀況。
 
 |
 
@@ -271,9 +271,11 @@ BRS-ib-publisher
     \ **2019/06/17 17:30**\: 新鼎回報執行緒從中午到現在多漲出700多，要求關閉程式。
      Client的程式無法創建及管理Server的執行緒。Client僅能與Server，建立連線、抓取資料，關閉連線等基本的操作。
 
+|
 
-
-
+    \ **2019/06/20 10:30**\: 排除加入Client所造成Server異常的推論。
+     10:30 Client程式，執行抓取BPM資訊。機場此時進行確認，並沒有增加Server太多執行緒的個數，此值並非是執行緒總數量，而是執行緒的ID號碼，且未影響Server整體效能。
+     此除之外，新鼎告知長榮在當日上午8:00左右再度發現斷訊問題，與是否開啟Client程式，並沒有關聨性，排除加入Client所造成Server異常的推論。
 
 .. toctree::
    :maxdepth: 2
@@ -286,6 +288,7 @@ BRS-ib-publisher
    mainfunction
    IBMMQClient
    QueueManager
+   portalLog
    note
 
 

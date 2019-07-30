@@ -9,14 +9,14 @@ set RABBITMQ_ROUTING_KEY=bpm_rk
 set LD_LIBRARY_PATH=/opt/mqm/lib64/
 set IBMQUEUE_MANAGER=TIABPM
 set IBMCHANNEL=TAISNR.SVRCONN
-set IBMHOST=10.2.67.76
+set IBMHOST=192.168.100.76
 set IBMPORT=1414
 set IBMQUEUE_NAME=TAISNR.LOCAL.QUEUE
 set IBMUSER=TAISNRBPM
 set IBMPASSWORD=Taisnr123456!
 set DebugLog=Open
 set FailToSleepSec=20
-set DisconnectSec=600
+set DisconnectSec=300
 set PORTALLOG_URL=http://172.20.0.228:5555/common/api/v1/apilog/
 set PORTAL_TOKEN=0d7bb5e553351702b633ccfe46c93fa007f6e4f1
 python code\fetchdata.py

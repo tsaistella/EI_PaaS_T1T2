@@ -1,31 +1,60 @@
+# -*- coding: utf-8 -*-
 import time, os, json, sys
+import datetime
 from QueueManager import QueueManager
 from IBMMQClient import IBMMQClientManager
-import datetime
+from portalLog import PortalLog as plog
+
+# #機場
+# url = "http://172.20.0.228:5555/baggages/api/v1/bpm/"
+# token = "0d7bb5e553351702b633ccfe46c93fa007f6e4f1"
 
 
-def DebugLog(msg,connectmsg):  
+# #會內
+# url = "http://124.9.14.14:5555/baggages/api/v1/bpm/"
+# token = "019d09a5b4dc82f96faa2c010d8dee40f794e033"
+
+def DebugLog(msg, connectmsg, eventLog, count):  
     """
     DebugLog
     開啟除錯模式(DebugLog=Open)時, 在程式執行目錄中的DebugLog資料夾，可查看執行過程的記錄檔。
 
     Args:
         msg:包含BPM及連線狀態的所有資訊，格式:BPM_西元年-月-日.txt
+
         connectmsg:僅有連線狀態的資訊，格式:Connect_西元年-月-日.txt
 
+        ceventLog:稽查資料，透過API傳送至Web Server。
+
+        count:紀錄此稽查資料是否為BPM資訊。1:取得BPM資訊; 0:非BPM資訊的其他系統稽查資訊。   
+             
     """ 
+    DebugLogDir = os.path.dirname(__file__) #<-- absolute dir the script is in   
+    DebugLogDir = os.path.join(DebugLogDir, '..')   
+    DebugLogDir = os.path.join(DebugLogDir, 'DebugLog')
     DebugLog = os.getenv('DebugLog')
+    
+    
+    if eventLog :                
+        plog.sentLog(str(eventLog),count)
+
+    if connectmsg :                
+        connectmsg = str(datetime.datetime.now())+ " " + connectmsg     
+    if msg :  
+        msg = str(datetime.datetime.now())+ "@" + msg + "@"  
+
+
     if DebugLog.upper() == "OPEN" :
         if not os.path.exists('DebugLog'):
             try:
                 os.makedirs('DebugLog')
             except Exception as patherror :
                 print(str(patherror))        
-        if msg :  
-            with open("DebugLog\BPM_"+str(datetime.datetime.now().date())+".txt", "a") as text_file:
+        if msg : 
+            with open(os.path.join(DebugLogDir, "BPM_"+str(datetime.datetime.now().date())+".txt") , "a") as text_file:
                 print(f"{msg}", file=text_file)                
         if connectmsg :          
-            with open("DebugLog\Connect_"+str(datetime.datetime.now().date())+".txt", "a") as text_file:
+            with open(os.path.join(DebugLogDir, "Connect_"+str(datetime.datetime.now().date())+".txt") , "a") as text_file:
                 print(f"{connectmsg}", file=text_file)   
     else:
         if msg :            
@@ -100,16 +129,16 @@ def mainfunction():
     getmessagecount = 0
     connectcount = 0
     while keep_connect:
-        try:               
+        try:
             ibmmqi.connect(user, password)                 
             keep_connect = False 
             connectcount = connectcount + 1    
-            msg = connectmsg = str(datetime.datetime.now())+ " Connect success !! connectcount:" + str(connectcount) 
-            DebugLog(msg,connectmsg)   
+            msg = connectmsg = "Connect success !! connectcount:" + str(connectcount) 
+            DebugLog(msg,connectmsg,'MqConnectSucces','0')   
         except  Exception as pymqierror :
             keep_connect = True
-            msg = connectmsg =str(datetime.datetime.now())+ " Connect fail !! connectcount:" + str(connectcount) + str(pymqierror) 
-            DebugLog(msg,connectmsg) 
+            msg = connectmsg ="Connect fail !! connectcount:" + str(connectcount) + str(pymqierror) 
+            DebugLog(msg,connectmsg,'MqConnectFail','0') 
         time.sleep(1)
         if keep_connect == False : 
             #Connecting in client mode
@@ -122,50 +151,54 @@ def mainfunction():
                 try:                       
                     #How to get the message off a queue
                     msg_body = ibmmqi.getmessage()
-                    msg = str(datetime.datetime.now())+ " success!! "+ msg_body       
+                    msg = "Success!! "+ msg_body       
                     getmessagecount  = getmessagecount + 1       
-                    connectmsg = str(datetime.datetime.now())+ " success!! getmessagecount:" +str(getmessagecount)  
+                    connectmsg = "IBMMQ  getmessage success!! getmessagecount:" +str(getmessagecount)  
+                    DebugLog(msg,connectmsg,'GetMesFormIbmMQ','1')    
                     try:
                         if (qm.is_connected()) == False :
                             qm.connect()
-                        qm.publish(exchange, routing_key, msg_body) 
+                        qm.publish(exchange, routing_key, msg_body)    
+                        connectmsg = "RabbitMQ publisher success!! getmessagecount:" +str(getmessagecount)  
+                        DebugLog(msg,connectmsg,'BpmToRabbbitMQ','0')      
                     except Exception as RabbitMQerror:
                         qm.connect()     
-                        msg = connectmsg =str(datetime.datetime.now())+ ":" +str(count) + "RabbitMQerror Exception !! " +str(RabbitMQerror)                     
+                        msg = connectmsg = ":" +str(count) + "RabbitMQerror Exception !! " +str(RabbitMQerror)                     
+                        DebugLog(msg,connectmsg,'RabbitMqError','0')  
                     keep_running = True
                     keep_connect = False
                     count = 1                 
                 except  Exception as pymqierror :  
                     exceptioncount  = exceptioncount + 1      
-                    connectmsg =str(datetime.datetime.now())+ ":" +str(count) + " Exception !! exceptioncount:" +str(exceptioncount)+ "-" +str(pymqierror)
+                    connectmsg = ":" +str(count) + " Exception !! exceptioncount:" +str(exceptioncount)+ "-" +str(pymqierror)
                     if count > 9 :
                         keep_running = False            
                         keep_connect = True
                     else:
                         keep_running = True
                         keep_connect = False
-                    count = count + 1        
-                    time.sleep(FailToSleepSec)   
-                DebugLog(msg,connectmsg)          
+                    count = count + 1    
+                    DebugLog(msg,connectmsg,'IbmMQException','0')        
+                    time.sleep(FailToSleepSec)       
                 #time.sleep(2)
             
             if keep_running == False:         
                 keep_connect = True
                 try:                    
-                    msg = connectmsg = str(datetime.datetime.now())+ " ibmmqi.close()!! "    
+                    msg = connectmsg = "ibmmqi.close()!! "    
                     ibmmqi.close()
                 except  Exception as pymqicloseerr :   
-                    msg = connectmsg = str(datetime.datetime.now())+ " ibmmqi.close():Exception !! " +str(pymqicloseerr)
-                DebugLog(msg,connectmsg)   
+                    msg = connectmsg ="ibmmqi.close():Exception !! " +str(pymqicloseerr)
+                DebugLog(msg,connectmsg,'IbmMqClose','0')    
                 time.sleep(1)             
     
         keep_connect = True
         try:
             ibmmqi.disconnect()  
-            msg = connectmsg = str(datetime.datetime.now())+ " ibmmqi.disconnect! getmessagecount:" +str(getmessagecount)  
+            msg = connectmsg = "ibmmqi.disconnect! getmessagecount:" +str(getmessagecount)  
         except  Exception as pymqidisconerr :   
-            msg = connectmsg = str(datetime.datetime.now())+ " ibmmqi.disconnect:Exception !! " +str(pymqidisconerr)
-        DebugLog(msg,connectmsg)   
+            msg = connectmsg = "ibmmqi.disconnect:Exception !! " +str(pymqidisconerr)        
+        DebugLog(msg,connectmsg,'IbmMqDisconnect','0')    
         time.sleep(DisconnectSec)    
         
 

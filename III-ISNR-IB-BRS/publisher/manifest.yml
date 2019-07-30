@@ -26,3 +26,5 @@ applications:
     DebugLog: Open
     FailToSleepSec: 20
     DisconnectSec: 600
+    PORTALLOG_URL: http://172.20.0.228:5555/common/api/v1/apilog/
+    PORTAL_TOKEN: 0d7bb5e553351702b633ccfe46c93fa007f6e4f1

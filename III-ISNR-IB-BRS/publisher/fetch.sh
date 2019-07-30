@@ -17,4 +17,6 @@ export IBMPASSWORD="Taisnr123456!"
 export DebugLog="Open"
 export FailToSleepSec="20"
 export DisconnectSec="600"
+export PORTALLOG_URL="http://172.20.0.228:5555/common/api/v1/apilog/"
+export PORTAL_TOKEN="0d7bb5e553351702b633ccfe46c93fa007f6e4f1"
 python3 ./code/fetchdata.py
