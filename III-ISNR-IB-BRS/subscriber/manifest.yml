@@ -14,6 +14,9 @@ applications:
     RABBITMQ_VHOST: isnr
     RABBITMQ_BPMEXCHANGE: bpm
     RABBITMQ_QUEUENAME: bpm
-    RABBITMQ_ROUTING_KEY: bpm_rk
+    RABBITMQ_ROUTING_KEY: bpm_rk    
+    DebugLog: Open
+    SOURCE: RabbitMQ 
     PORTAL_URL: http://172.20.0.228:5555/baggages/api/v1/bpm/
-    PORTAL_TOKEN: 3e74e351fb4096af14c9e318af2f5bffed6fba2c
+    PORTAL_TOKEN: 0d7bb5e553351702b633ccfe46c93fa007f6e4f1
+    PORTALLOG_URL: http://172.20.0.228:5555/common/api/v1/apilog/

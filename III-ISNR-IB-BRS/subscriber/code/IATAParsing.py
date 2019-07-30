@@ -1,9 +1,26 @@
+# -*- coding: utf-8 -*-
 import json
 
 class IATAParsing(object):
     def __init__(self):
         pass
-    def IATABPM(bytetxt):
+    def IATABPM(txt):        
+        """
+        IATABPM
+        參閱IATA行李資料規格書，運用BpmElements資料結構，列舉出IATA行李資料格式，將取得的BPM原始文字資料，結合BpmElements，進行給予格式語意的Parse，以JSON形式輸出呈現。
+
+        ..  image:: img/14.png
+            :height: 400
+            :width: 750
+        
+
+        機場地勤人員以手持機掃條碼，進行打櫃(BPM)，系統會產生一組打櫃的BPM資訊。
+
+        ..  image:: img/15.png
+            :height: 400
+            :width: 674
+        
+        """
         BpmElements=[
             ['BPM'],       
             ['BSM'],      
@@ -87,12 +104,7 @@ class IATAParsing(object):
         # txt = "BPM\r\n.V/1LTPE\r\n.J/R///18APR/105210L/TIAT2/\r\n.F/OZ0712/18APR/ICN/Y\r\n.U/AKE25219OZ/TPE/X/Y/ICN///\r\n.N/0988401338001\r\n.Q/005\r\n.S/Y/25K/C/158/158//N\r\n.W/K/2/20\r\n.P/LU/CHINMEIMS\r\nENDBPM"
         #txt = "BSM\r\nCHG\r\n.V/1LZRH////123ABC456Z\r\n.F/SR101/18APR/JFK/C\r\n.N/0085123457001\r\n.S/N\r\nENDBSM"
         #txt = "BTM\r\nDEL\r\n.V/1TJFK////123ABC4567\r\n.I/SR101/18APR/JFK/C\r\n.F/DL671/18APR/ATL/C\r\n.N/0085123457001\r\nENDBTM"
-        
- 
-        #print(type(bytetxt)) #<class 'dict'>
-        
-        txt =  str(bytetxt, 'utf-8')
-        #print(type(txt)) #<class 'dict'>
+  
         
         sBpmList = txt.split("\r\n", )
         #print(sBpmList)
